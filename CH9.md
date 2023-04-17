@@ -1,6 +1,6 @@
 # NASA PROJECT FROM COURSE ZTM – Complete NodeJS Developer in 2022 (GraphQL, MongoDB, + more)
 
-## CHAPTER 9
+## CHAPTER 9 - NASA Project
 
 ### CLIENT
 
@@ -176,6 +176,10 @@ Esto funciona con `REACT`, `ANGULAR`, y `VUE`
 - git init
 - git add .
 - git status
-  git commit -m "first commit updated code from chapter 9"
-  git remote add origin https://github.com/aabm00/nasa-project.git
-  git push -u origin master
+- git commit -m "first commit updated code from chapter 9"
+- git remote add origin git@github.com:aabm00/nasa-project.git
+- git remote
+- git push -u origin master
+
+- git branch chapter-9
+- git push -u origin chapter-9
