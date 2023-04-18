@@ -1,6 +1,7 @@
 const http = require("http");
-const app = require("./app");
 
+const app = require("./app");
+const { mongoConnect } = require("./services/mongo");
 const { loadPlanetsData } = require("./model/planets.model");
 
 const PORT = process.env.PORT || 8000;
@@ -17,6 +18,8 @@ const PORT = process.env.PORT || 8000;
 const server = http.createServer(app);
 
 async function startserver() {
+  await mongoConnect();
+
   /**
    * Cargamos los planetas habitables antes de
    * empezar a escuchar requests del cliente

@@ -2,6 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const { parse } = require("csv-parse");
 
+const planets = require("./planets.mongo");
+
 const habitablePlanets = [];
 
 function isHabitablePlanet(planet) {
@@ -29,10 +31,10 @@ function loadPlanetsData() {
           columns: true,
         })
       )
-      .on("data", (data) => {
+      .on("data", async (data) => {
         // console.log("DATA:", data);
         if (isHabitablePlanet(data)) {
-          habitablePlanets.push(data);
+          savePlanet(data);
         }
         // console.log("/////////////////////////");
       })
@@ -47,8 +49,47 @@ function loadPlanetsData() {
   });
 }
 
-function getAllPlanets() {
-  return habitablePlanets;
+async function getAllPlanets() {
+  /**
+   * Tiene 2 args:
+   * - El primer Objeto con los fitros a aplicar
+   * - El segundo es la 'projection' String | Objeto con
+   * los campos o propiedades que se quieren añadir o
+   * eliminar del resultado a devolver.
+   *
+   */
+  return await planets.find(
+    {},
+    {
+      _id: 0,
+      __v: 0,
+    }
+  );
+}
+
+// Codigo especifico de MongoDB + mongoose
+async function savePlanet(planet) {
+  try {
+    /**
+     * - find the planet by filter
+     * - Hacemos que los dato coincidan con el Schema de planet
+     *   upsert = insert + update. solo inserta docs que no existen
+     * - Activate upsert
+     */
+    await planets.updateOne(
+      {
+        keplerName: planet.kepler_name,
+      },
+      {
+        keplerName: planet.kepler_name,
+      },
+      {
+        upsert: true,
+      }
+    );
+  } catch (err) {
+    console.error(`Could not save planet ${err}`);
+  }
 }
 
 module.exports = {
