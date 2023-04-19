@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-MONGO_URL = "URL MONGO ATLAS";
+MONGO_URL = process.env.MONGO_URL;
 
 mongoose.connection.once("open", () => {
   console.log("MongoDB connection ready!");
